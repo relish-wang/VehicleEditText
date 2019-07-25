@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keyWidth="10%p"
+    android:keyHeight="60dp">
+    <Row>
+        <Key
+            android:codes="20140"
+            android:keyLabel="京" />
+        <Key
+            android:codes="27941"
+            android:keyLabel="津" />
+        <Key
+            android:codes="28189"
+            android:keyLabel="渝" />
+        <Key
+            android:codes="27818"
+            android:keyLabel="沪" />
+        <Key
+            android:codes="20864"
+            android:keyLabel="冀" />
+        <Key
+            android:codes="26187"
+            android:keyLabel="晋" />
+        <Key
+            android:codes="36797"
+            android:keyLabel="辽" />
+        <Key
+            android:codes="21513"
+            android:keyLabel="吉" />
+        <Key
+            android:codes="40657"
+            android:keyLabel="黑" />
+        <Key
+            android:codes="33487"
+            android:keyLabel="苏" />
+    </Row>
+    <Row>
+        <Key
+            android:codes="27993"
+            android:keyLabel="浙" />
+        <Key
+            android:codes="30358"
+            android:keyLabel="皖" />
+        <Key
+            android:codes="38397"
+            android:keyLabel="闽" />
+        <Key
+            android:codes="36195"
+            android:keyLabel="赣" />
+        <Key
+            android:codes="40065"
+            android:keyLabel="鲁" />
+        <Key
+            android:codes="35947"
+            android:keyLabel="豫" />
+        <Key
+            android:codes="37122"
+            android:keyLabel="鄂" />
+        <Key
+            android:codes="28248"
+            android:keyLabel="湘" />
+        <Key
+            android:codes="31908"
+            android:keyLabel="粤" />
+        <Key
+            android:codes="29756"
+            android:keyLabel="琼" />
+    </Row>
+    <Row>
+        <Key
+            android:codes="24029"
+            android:keyLabel="川" />
+        <Key
+            android:codes="36149"
+            android:keyLabel="贵" />
+        <Key
+            android:codes="20113"
+            android:keyLabel="云" />
+        <Key
+            android:codes="38485"
+            android:keyLabel="陕" />
+        <Key
+            android:codes="29976"
+            android:keyLabel="甘" />
+        <Key
+            android:codes="38738"
+            android:keyLabel="青" />
+        <Key
+            android:codes="33945"
+            android:keyLabel="蒙" />
+        <Key
+            android:codes="26690"
+            android:keyLabel="桂" />
+        <Key
+            android:codes="23425"
+            android:keyLabel="宁" />
+        <Key
+            android:codes="26032"
+            android:keyLabel="新" />
+    </Row>
+    <Row>
+        <Key
+            android:codes="64578"
+            android:keyWidth="15%p"
+            android:keyLabel="ABC" />
+        <Key
+            android:codes="34255"
+            android:keyLabel="藏" />
+        <Key
+            android:codes="20351"
+            android:keyLabel="使" />
+        <Key
+            android:codes="39046"
+            android:keyLabel="领" />
+        <Key
+            android:codes="35686"
+            android:keyLabel="警" />
+        <Key
+            android:codes="23398"
+            android:keyLabel="学" />
+        <Key
+            android:codes="28207"
+            android:keyLabel="港" />
+        <Key
+            android:codes="28595"
+            android:keyLabel="澳" />
+        <Key
+            android:codes="-5"
+            android:keyWidth="15%p"
+            android:keyIcon="@drawable/ic_del" />
+    </Row>
+</Keyboard>
