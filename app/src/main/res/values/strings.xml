@@ -2,4 +2,6 @@
     <string name="app_name">AndroidVehicleKeyboard</string>
     <string name="please_input_vehicle_number">请输入车牌号</string>
     <string name="normal_input_method">普通输入法</string>
+    <string name="confirm">确认</string>
+    <string name="cancel">取消</string>
 </resources>

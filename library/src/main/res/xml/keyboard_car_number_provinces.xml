@@ -2,6 +2,17 @@
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
     android:keyWidth="10%p"
     android:keyHeight="60dp">
+
+    <Row>
+        <Key
+            android:codes="-10086"
+            android:keyWidth="75%p" />
+        <Key
+            android:codes="-999"
+            android:keyWidth="15%p"
+            android:keyEdgeFlags="right"
+            android:keyIcon="@drawable/ic_del" />
+    </Row>
     <Row>
         <Key
             android:codes="20140"

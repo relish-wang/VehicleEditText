@@ -30,6 +30,7 @@ import relish.wang.vehicleedittext.R;
  * 直接在布局中使用该控件:
  * <pre>
  * <code>
+ *
  * &lt;wang.relish.vehicle.VehicleEditText
  *      android:id="@+id/vet"
  *      android:layout_width="match_parent"
@@ -41,6 +42,7 @@ import relish.wang.vehicleedittext.R;
  *
  * <pre>
  * <code>
+ *
  *      EditText et = findViewById(R.id.et);
  *      VehicleKeyboardHelper.bind(et);
  * </code>
@@ -59,8 +61,8 @@ public class VehicleKeyboardHelper {
      *
      * @param et 绑定的输入框控件(EditText)
      */
-    public static void bind(EditText et) {
-        bind(et, VehicleKeyboardView.newInstance(et.getContext()));
+    public static void bind(Activity activity, EditText et) {
+        bind(activity, et, VehicleKeyboardView.newInstance(et.getContext()));
     }
 
     /**
@@ -69,26 +71,31 @@ public class VehicleKeyboardHelper {
      * @param et       绑定的输入框控件(EditText)
      * @param keyboard 自定义键盘(KeyboardView)
      */
-    public static void bind(EditText et, VehicleKeyboardView keyboard) {
-        bind(et, keyboard, null);
+    public static void bind(Activity activity, EditText et, VehicleKeyboardView keyboard) {
+        bind(activity, et, keyboard, null);
     }
+
+
+    static Activity mCurrentActivity;
 
     /**
      * 为EditText绑定自定义键盘，并设置自定义键盘的特殊键的功能
      *
      * @param et       绑定的输入框控件(EditText)
      * @param keyboard 自定义键盘(KeyboardView)
-     * @param l 键盘事件监听器
+     * @param l        键盘事件监听器
      */
     @SuppressWarnings("SameParameterValue")
     @SuppressLint("ClickableViewAccessibility")
     private static void bind(
+            Activity activity,
             final EditText et,
             final VehicleKeyboardView keyboard,
             @Nullable VehicleKeyboardView.OnKeyboardActionListener l) {
         if (et == null) return;//throw new NullPointerException("EditText should not be NULL!");
         if (keyboard == null) return; // 表示使用系统键盘
 
+        mCurrentActivity = activity;
 
         keyboard.setOnKeyboardActionListener(l != null
                 ? l : new OnKeyboardActionAdapter(et) {
@@ -231,14 +238,15 @@ public class VehicleKeyboardHelper {
                 return false;
             }
         });
-        Window window = getWindow(et);
-        if (window == null) return;
-        // 解决底部被导航栏遮挡问题
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        View decorView = window.getDecorView();
-        if (decorView == null) return;
-        if (!isActivityRunning(et.getContext())) return;
-        keyboardWindow.showAtLocation(decorView, Gravity.BOTTOM, 0, 0);
+        Window window = getWindow(mCurrentActivity,et);
+        View decorView = null;
+        if (window != null) {
+            // 解决底部被导航栏遮挡问题
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            decorView = window.getDecorView();
+            if (!isActivityRunning(et.getContext())) return;
+        }
+        keyboardWindow.showAtLocation(decorView == null ? et : decorView, Gravity.BOTTOM, 0, 0);
         keyboardWindow.update();
 
     }
@@ -276,13 +284,8 @@ public class VehicleKeyboardHelper {
         }
     }
 
-    private static Window getWindow(EditText et) {
-        Context context = et.getContext();
-        if (context instanceof Activity) {
-            return ((Activity) context).getWindow();
-        } else {
-            return null;
-        }
+    private static Window getWindow(Activity activity, EditText et) {
+        return activity.getWindow();
     }
 
     private static boolean isActivityRunning(Context context) {
@@ -290,7 +293,7 @@ public class VehicleKeyboardHelper {
         if (context instanceof Activity) {
             return !((Activity) context).isFinishing();
         } else {
-            return false;
+            return true;
         }
     }
 }

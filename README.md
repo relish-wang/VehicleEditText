@@ -15,16 +15,6 @@ Android用于车牌号输入的自定义键盘.仿"支付宝-车主服务-添加
 ```groovy
 implementation "wang.relish.widget:vehicleedittext:1.0.0"
 ```
-在根目录的`build.gradle`中添加:
-```groovy
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven { url "https://dl.bintray.com/relish-wang/maven/" } // 添加这行
-    }
-}
-```
 然后`Sync Now`就行啦. (aar包大小仅35kb)
 
 ### 1 使用wang.relish.widget.VehicleEditText

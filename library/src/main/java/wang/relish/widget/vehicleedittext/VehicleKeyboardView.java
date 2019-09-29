@@ -28,7 +28,7 @@ import relish.wang.vehicleedittext.R;
  * @author Relish Wang
  * @since 2019/03/15
  */
-class VehicleKeyboardView extends KeyboardView {
+/* package */ class VehicleKeyboardView extends KeyboardView {
 
     public static VehicleKeyboardView newInstance(Context context) {
         return new VehicleKeyboardView(context);
@@ -63,7 +63,7 @@ class VehicleKeyboardView extends KeyboardView {
         mProvincesKeyBoard = new Keyboard(context, R.xml.keyboard_car_number_provinces);
         mLettersKeyBoard = new Keyboard(context, R.xml.keyboard_car_number_letters);
         setKeyboard(mProvincesKeyBoard);
-        setPreviewEnabled(false);// 无法再popupwindow上展示popupwindow，而预览恰恰就是一个popupwindow
+        setPreviewEnabled(false);// 无法在PopupWindow上展示PopupWindow，而预览恰恰就是一个PopupWindow
         if (context instanceof Activity) {
             WindowManager windowManager = ((Activity) context).getWindowManager();
             metrics = new DisplayMetrics();
@@ -96,74 +96,78 @@ class VehicleKeyboardView extends KeyboardView {
         canvas.drawRect(bgRect, paint);
 
         List<Keyboard.Key> keys = keyboard.getKeys();
-        if (keys != null && keys.size() > 0) {
-            paint.setTextAlign(Paint.Align.CENTER);
-            Typeface font = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
-            paint.setTypeface(font);
-            paint.setAntiAlias(true);
-            for (Keyboard.Key key : keys) {
-                // 1 绘制背景（左右-3dp 上下-6dp）
-                int _3dpToPx = (int) TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP, 3, metrics);
-                int _6dpToPx = (int) TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP, 6, metrics);
-                Drawable dr;
-                if (Arrays.asList(
-                        Keyboard.KEYCODE_CANCEL,
-                        "ABC".hashCode(),
-                        "中文".hashCode(),
-                        Keyboard.KEYCODE_DELETE).contains(key.codes[0])) {
-                    dr = getContext().getResources().getDrawable(R.drawable.btn_gray);
-                } else {
-                    dr = getContext().getResources().getDrawable(R.drawable.btn_white);
-                }
-                @SuppressLint("DrawAllocation")
-                Rect bounds = new Rect(
-                        key.x + _3dpToPx,
-                        key.y + _6dpToPx,
-                        key.x + key.width - _3dpToPx,
-                        key.y + key.height - _6dpToPx);
-                dr.setBounds(bounds);
-                dr.draw(canvas);
-                // 2 绘制文字
-                if (key.label != null) {
-                    if (Arrays.asList("ABC".hashCode(), "中文".hashCode()).contains(key.codes[0])) {
-                        paint.setTextSize(bounds.height() - 5 * _6dpToPx);
-                    } else {
-                        paint.setTextSize(bounds.height() - 4 * _6dpToPx);
-                    }
-                    if (key.codes[0] == Keyboard.KEYCODE_DONE) {
-                        paint.setColor(getContext().getResources().getColor(R.color.black));
-                    } else {
-                        paint.setColor(getContext().getResources().getColor(R.color.black));
-                    }
-                    @SuppressLint("DrawAllocation")
-                    Rect rect = new Rect(
-                            key.x,
-                            key.y,
-                            key.x + key.width,
-                            key.y + key.height);
-                    Paint.FontMetricsInt fontMetrics = paint.getFontMetricsInt();
-                    int baseline =
-                            (rect.bottom + rect.top - fontMetrics.bottom - fontMetrics.top) / 2;
-                    // 实现水平居中，drawText对应改为传入targetRect.centerX()
-                    paint.setTextAlign(Paint.Align.CENTER);
-                    canvas.drawText(key.label.toString(), rect.centerX(), baseline, paint);
-                }
-                // 3 绘制图标
-                if (key.icon != null) {
-                    int _15dpToPx = 15 * _6dpToPx / 6;
-                    @SuppressLint("DrawAllocation") Rect iconRect = new Rect(
-                            bounds.left + _15dpToPx,
-                            bounds.top + _15dpToPx,
-                            bounds.right - _15dpToPx,
-                            bounds.bottom - _15dpToPx);
-                    key.icon.setBounds(iconRect);
-                    key.icon.draw(canvas);
-                }
-            }
+        if (keys == null || keys.isEmpty()) return;
+        paint.setTextAlign(Paint.Align.CENTER);
+        Typeface font = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
+        paint.setTypeface(font);
+        paint.setAntiAlias(true);
+        for (Keyboard.Key key : keys) {
+            drawCell(canvas, key);
         }
     }
 
-
+    private void drawCell(Canvas canvas, Keyboard.Key key) {
+        // 1 绘制背景（左右-3dp 上下-6dp）
+        int _3dpToPx = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 3, metrics);
+        int _6dpToPx = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 6, metrics);
+        Drawable dr;
+        if (Arrays.asList(
+                Keyboard.KEYCODE_CANCEL,
+                "ABC".hashCode(),
+                "中文".hashCode(),
+                Keyboard.KEYCODE_DELETE).contains(key.codes[0])) {
+            dr = getContext().getResources().getDrawable(R.drawable.btn_gray);
+        } else {
+            dr = getContext().getResources().getDrawable(R.drawable.btn_white);
+            if (key.codes[0] == -10086) {
+                dr = getContext().getResources().getDrawable(R.drawable.btn_null);
+            }
+        }
+        @SuppressLint("DrawAllocation")
+        Rect bounds = new Rect(
+                key.x + _3dpToPx,
+                key.y + _6dpToPx,
+                key.x + key.width - _3dpToPx,
+                key.y + key.height - _6dpToPx);
+        dr.setBounds(bounds);
+        dr.draw(canvas);
+        // 2 绘制文字
+        if (key.label != null) {
+            if (Arrays.asList("ABC".hashCode(), "中文".hashCode()).contains(key.codes[0])) {
+                paint.setTextSize(bounds.height() - 5 * _6dpToPx);
+            } else {
+                paint.setTextSize(bounds.height() - 4 * _6dpToPx);
+            }
+            if (key.codes[0] == Keyboard.KEYCODE_DONE) {
+                paint.setColor(getContext().getResources().getColor(R.color.black));
+            } else {
+                paint.setColor(getContext().getResources().getColor(R.color.black));
+            }
+            @SuppressLint("DrawAllocation")
+            Rect rect = new Rect(
+                    key.x,
+                    key.y,
+                    key.x + key.width,
+                    key.y + key.height);
+            Paint.FontMetricsInt fontMetrics = paint.getFontMetricsInt();
+            int baseline =
+                    (rect.bottom + rect.top - fontMetrics.bottom - fontMetrics.top) / 2;
+            // 实现水平居中，drawText对应改为传入targetRect.centerX()
+            paint.setTextAlign(Paint.Align.CENTER);
+            canvas.drawText(key.label.toString(), rect.centerX(), baseline, paint);
+        }
+        // 3 绘制图标
+        if (key.icon != null) {
+            int _15dpToPx = 15 * _6dpToPx / 6;
+            @SuppressLint("DrawAllocation") Rect iconRect = new Rect(
+                    bounds.left + _15dpToPx,
+                    bounds.top + _15dpToPx,
+                    bounds.right - _15dpToPx,
+                    bounds.bottom - _15dpToPx);
+            key.icon.setBounds(iconRect);
+            key.icon.draw(canvas);
+        }
+    }
 }

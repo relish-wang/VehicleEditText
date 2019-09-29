@@ -1,5 +1,6 @@
 package wang.relish.widget.vehicleedittext;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 
@@ -29,7 +30,7 @@ public class VehicleEditText extends AppCompatEditText {
     }
 
     private void init() {
-        VehicleKeyboardHelper.bind(this, new VehicleKeyboardView(getContext()));
+        VehicleKeyboardHelper.bind((Activity) getContext(),this, new VehicleKeyboardView(getContext()));
     }
 
     OnTouchListener mToucheListener;
@@ -47,6 +48,4 @@ public class VehicleEditText extends AppCompatEditText {
     public void setOnKeyListener2(OnKeyListener l) {
         mKeyListener = l;
     }
-
-
 }

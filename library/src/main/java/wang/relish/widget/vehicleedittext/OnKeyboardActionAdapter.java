@@ -11,7 +11,7 @@ import android.widget.EditText;
  * @author Relish Wang
  * @since 2017/09/18
  */
-abstract class OnKeyboardActionAdapter implements KeyboardView.OnKeyboardActionListener {
+/* package */ abstract class OnKeyboardActionAdapter implements KeyboardView.OnKeyboardActionListener {
 
     private EditText mEditText;
 

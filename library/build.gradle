@@ -26,4 +26,4 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
 }
 
-apply from: 'https://raw.githubusercontent.com/relish-wang/script/master/push_to_jcenter.gradle'
+apply from: 'https://raw.githubusercontent.com/relish-wang/script/master/groovy/upload/push_to_jcenter.gradle'
