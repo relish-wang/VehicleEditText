@@ -15,28 +15,34 @@ Android用于车牌号输入的自定义键盘.仿"支付宝-车主服务-添加
 ```groovy
 implementation "wang.relish.widget:vehicleedittext:1.0.0"
 ```
-在根目录的`build.gradle`中添加:
-```groovy
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven { url "https://dl.bintray.com/relish-wang/maven/" } // 添加这行
-    }
-}
-```
-然后`Sync Now`就行啦. (aar包大小仅35kb)
 
-### 1 使用wang.relish.widget.VehicleEditText
+### 1 使用原生EditText(**推荐**)
+如果你不需要为EditText设置以下的监听器:
+- View.OnTouchListener
+- View.OnFocusChangeListener
+- View.OnKeyListener
+你可以使用下面这种侵入性小的方式。
+
+```java
+EditText vehicleEditText = findViewById(R.id.vet);
+VehicleKeyboardHelper.bind(vehicleEditText); // 为输入框绑定车牌号输入键盘
+```
+
+### 2 使用wang.relish.widget.VehicleEditText(不推荐)
 
 和正常的EditText一样使用即可。
 
-不过需要注意VehicleEditText设置了以下监听器:
+不过需要注意如果你需要设置以下监听器:
 - View.OnTouchListener
 - View.OnFocusChangeListener
 - View.OnKeyListener
 
-如果你也需要设置这些监听器，需要注意确保不要覆盖这些监听器的功能。而是使用VehicleEditText的setOnTouchListener2/setOnFocusChangeListener2/setOnKeyListener2等方法设置监听器。
+请使用VehicleEditText的
+- setOnTouchListener2
+- setOnFocusChangeListener2
+- setOnKeyListener2
+
+因为这些监听器已经在VehicleKeyboardHelper中被使用了, 重复设置会覆盖原有的功能。
 
 ```xml
 <wang.relish.widget.VehicleEditText
@@ -45,15 +51,18 @@ allprojects {
     android:layout_height="wrap_content" />
 ```
 
-### 2 使用原生EditText
-如果你不需要设置上述的监听器,你可以使用下面这种侵入性更小的方法。
+## 三、注意事项
 
-```java
-EditText vehicleEditText = findViewById(R.id.vet);
-VehicleKeyboardHelper.bind(vehicleEditText); // 为输入框绑定车牌号输入键盘
-```
+要求创建的EditText所持有的Context是Activity, 否则无法正常弹出车牌号输入法。// 暂时未修复这个问题(欢迎Merge Request)
 
-## 三、混淆配置
+## 四、混淆配置
 
 无
 
+## 五、升级日志
+
+[CHANGELOG.md](./CHANGELOG.md)
+
+## 六、致谢
+
+感谢[pxxhbc](https://github.com/pxxhbc)提出此项目的缺陷。
