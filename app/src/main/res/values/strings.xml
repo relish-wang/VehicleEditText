@@ -2,4 +2,5 @@
     <string name="app_name">AndroidVehicleKeyboard</string>
     <string name="please_input_vehicle_number">请输入车牌号</string>
     <string name="normal_input_method">普通输入法</string>
+    <string name="go_to_fragment">在Fragment中的表现</string>
 </resources>

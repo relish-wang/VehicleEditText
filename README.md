@@ -1,5 +1,7 @@
 # VehicleEditText
 
+[ ![Download](https://api.bintray.com/packages/relish-wang/maven/vehicleedittext/images/download.svg?version=1.0.1) ](https://bintray.com/relish-wang/maven/vehicleedittext/1.0.1/link)
+
 Android用于车牌号输入的自定义键盘.仿"支付宝-车主服务-添加车辆-车牌号"输入框展示的车牌号输入键盘。
 
 以下是本作与支付宝的对比图:
@@ -13,7 +15,7 @@ Android用于车牌号输入的自定义键盘.仿"支付宝-车主服务-添加
 
 在`app/build.gradle`的`dependencies`节点下添加:
 ```groovy
-implementation "wang.relish.widget:vehicleedittext:1.0.0"
+implementation "wang.relish.widget:vehicleedittext:1.0.2"
 ```
 
 ### 1 使用原生EditText(**推荐**)

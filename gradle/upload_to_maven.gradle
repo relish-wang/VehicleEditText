@@ -1,0 +1,112 @@
+apply plugin: 'com.jfrog.bintray'
+
+/**
+ GROUP_ID = 'com.example' // JCenter的GroupId
+ ARTIFACT_ID = 'demo'     // JCenter的ArtifactId
+ VERSION_NAME = '1.0'     // JCenter的VersionId
+ */
+
+version = VERSION_NAME
+group = GROUP_ID
+
+if (project.getPlugins().findPlugin("com.android.library")) {
+    task sourcesJar(type: Jar) {
+        from android.sourceSets.main.java.srcDirs
+        classifier = 'sources'
+    }
+
+    task javadoc(type: Javadoc) {
+        source = android.sourceSets.main.java.srcDirs
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+} else {
+    task sourcesJar(type: Jar) {
+        from sourceSets.main.java.srcDirs
+        classifier = 'sources'
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+}
+
+
+// Bintray
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        userOrg = 'relish-wang'
+        name = ARTIFACT_ID
+        desc = ''
+        websiteUrl = ''
+        vcsUrl = ''
+        licenses = []
+        publish = true
+    }
+}
+
+apply plugin: 'com.github.dcendents.android-maven'
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                if (project.getPlugins().findPlugin("com.android.library")) {
+                    packaging 'aar'
+                } else {
+                    packaging 'jar'
+                }
+                groupId GROUP_ID
+                artifactId ARTIFACT_ID
+                // Add your description here
+                name ARTIFACT_ID
+                description = ''
+                url = ''
+
+                // Set your license
+                licenses {
+                    license {
+                        name = 'The Apache Software License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'relish-wang'
+                        name = 'Relish Wang'
+                        email = 'relish.wang@gmail.com'
+                    }
+                }
+                scm {
+                    connection = '' // POM_GIT_URL
+                    developerConnection = '' // POM_GIT_URL
+                    url = '' // POM_URL
+                }
+            }
+        }
+    }
+}

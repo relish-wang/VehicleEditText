@@ -2,12 +2,15 @@ package wang.relish.widget.vehicleedittext;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.inputmethodservice.Keyboard;
 import android.os.IBinder;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -20,6 +23,8 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 
 import androidx.annotation.Nullable;
+
+import java.util.List;
 
 import relish.wang.vehicleedittext.R;
 
@@ -78,7 +83,7 @@ public class VehicleKeyboardHelper {
      *
      * @param et       绑定的输入框控件(EditText)
      * @param keyboard 自定义键盘(KeyboardView)
-     * @param l 键盘事件监听器
+     * @param l        键盘事件监听器
      */
     @SuppressWarnings("SameParameterValue")
     @SuppressLint("ClickableViewAccessibility")
@@ -233,14 +238,16 @@ public class VehicleKeyboardHelper {
         });
         Window window = getWindow(et);
         if (window == null) return;
-        // 解决底部被导航栏遮挡问题
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         View decorView = window.getDecorView();
         if (decorView == null) return;
         if (!isActivityRunning(et.getContext())) return;
-        keyboardWindow.showAtLocation(decorView, Gravity.BOTTOM, 0, 0);
-        keyboardWindow.update();
-
+        // 横竖屏切换时，Activity的onCreate可能还未执行完毕，还拿不到decorView
+        decorView.post(() -> {
+            // 解决底部被导航栏遮挡问题
+            keyboardWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+            keyboardWindow.showAtLocation(decorView, Gravity.BOTTOM, 0, 0);
+            keyboardWindow.update();
+        });
     }
 
     /**
@@ -281,6 +288,7 @@ public class VehicleKeyboardHelper {
         if (context instanceof Activity) {
             return ((Activity) context).getWindow();
         } else {
+            Log.e("VehicleEditText", "EditText must have a Context which is a Activity.");
             return null;
         }
     }

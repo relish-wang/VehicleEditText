@@ -1,6 +1,7 @@
 package wang.relish.widget.vehicleedittext.sample;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,5 +19,9 @@ public class MainActivity extends AppCompatActivity {
 
         mVehicleEditView = findViewById(R.id.vet);
         VehicleKeyboardHelper.bind(mVehicleEditView);
+
+        View btn = findViewById(R.id.seeFragment);
+        btn.setVisibility(View.VISIBLE);
+        btn.setOnClickListener(v -> WithFragmentActivity.start(v.getContext()));
     }
 }
