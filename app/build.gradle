@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion versions.compileSdk
+    compileSdkVersion 34
 
     defaultConfig {
         applicationId "wang.relish.widget.vehicleedittext.sample"
-        minSdkVersion versions.minSdk
-        targetSdkVersion versions.targetSdk
+        minSdkVersion 21
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -21,11 +21,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    namespace 'wang.relish.widget.vehicleedittext.sample'
 }
 
 dependencies {
-    implementation deps.appcompat
-    implementation deps.constraintlayout
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation project(':library') // VehicleEditText
 //    implementation 'wang.relish.widget:vehicleedittext:1.0.1'
 }

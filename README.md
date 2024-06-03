@@ -55,7 +55,7 @@ VehicleKeyboardHelper.bind(vehicleEditText); // 为输入框绑定车牌号输�
 
 ## 三、注意事项
 
-要求创建的EditText所持有的Context是Activity, 否则无法正常弹出车牌号输入法。// 暂时未修复这个问题(欢迎Merge Request)
+要求创建的EditText所持有的Context是Activity, 否则无法正常弹出车牌号输入法。
 
 ## 四、混淆配置
 
